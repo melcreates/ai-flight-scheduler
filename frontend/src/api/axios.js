@@ -1,0 +1,17 @@
+import axios from 'axios';
+
+const api = axios.create({
+    baseURL: 'http://localhost:5000',
+    withCredentials: true, // ✅ send cookies automatically
+});
+
+// ✅ Add token from localStorage
+api.interceptors.request.use(config => {
+    const token = localStorage.getItem('token'); // or from your AuthContext
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
+export default api;
